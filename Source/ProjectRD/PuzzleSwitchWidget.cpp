@@ -67,7 +67,6 @@ void UPuzzleSwitchWidget::CheckPuzzleAnswer(EBUTTONCOLOR Color)
 void UPuzzleSwitchWidget::ResetPuzzle()
 {
 	Count = 0;
-	
 	if (CountImages[0])
 	{
 		Image_Count->SetBrushFromTexture(CountImages[0]);

@@ -1,0 +1,100 @@
+// Fill out your copyright notice in the Description page of Project Settings.
+
+
+#include "Actor/TriggerBoxComponent.h"
+
+#include "Components/PrimitiveComponent.h"
+#include "Actor/MoverComponent.h"
+
+
+UTriggerBoxComponent::UTriggerBoxComponent()
+{
+    // Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
+    // off to improve performance if you don't need them.
+    PrimaryComponentTick.bCanEverTick = true;
+
+    // ...
+}
+
+void UTriggerBoxComponent::BeginPlay()
+{
+    Super::BeginPlay();
+
+    // ...
+    if (LockActor)
+    {
+        //UMoverComponent* NewMover = Cast<UMoverComponent>(LockActor);
+        //if (NewMover) { SetMover(NewMover); }
+    }
+}
+
+void UTriggerBoxComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+{
+    Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+    // ...
+    AActor* Actor = GetAcceptableActor();
+    if (Actor != nullptr)
+    {
+        UPrimitiveComponent* Component = Cast<UPrimitiveComponent>(Actor->GetRootComponent());
+        if (Component != nullptr)
+        {
+            Component->SetSimulatePhysics(false);
+        }
+
+        FBoxSphereBounds TriggerBoxBounds = CalcBounds(GetComponentTransform());
+        float TriggerFloorZ = TriggerBoxBounds.Origin.Z - TriggerBoxBounds.BoxExtent.Z;
+
+        FVector TriggerLocation = GetComponentLocation();
+
+        FVector NewActorLocation = FVector(TriggerLocation.X, TriggerLocation.Y, TriggerFloorZ);
+        Actor->SetActorLocation(NewActorLocation, false, nullptr, ETeleportType::TeleportPhysics);
+        FRotator NewRotation = GetRelativeRotation();
+        Actor->SetActorRelativeRotation(NewRotation);
+
+        if (Mover != nullptr)
+        {
+            Mover->SetShouldMove(true);
+        }
+    }
+    else
+    {
+        if (Mover != nullptr)
+        {
+            Mover->SetShouldMove(false);
+        }
+    }
+}
+
+void UTriggerBoxComponent::SetMover(UMoverComponent* NewMover)
+{
+    Mover = NewMover;
+}
+
+bool UTriggerBoxComponent::IsActorInTrigger() const
+{
+    AActor* Actor = GetAcceptableActor();
+    if (Actor) return true;
+
+    return false;
+}
+
+AActor* UTriggerBoxComponent::GetAcceptableActor() const
+{
+    TArray<AActor*> Actors;
+    GetOverlappingActors(Actors);
+
+    for (AActor* Actor : Actors)
+    {
+        bool HasAcceptableTag = Actor->ActorHasTag(TargetActorTag);
+        bool IsGrabbed = Actor->ActorHasTag("Grabbed");
+        //UE_LOG(LogTemp, Warning, TEXT("HasAcceptableTag: %hs"), HasAcceptableTag ? "True" : "False");
+        //UE_LOG(LogTemp, Warning, TEXT("IsGrabbed: %hs"), IsGrabbed ? "True" : "False");
+        if (HasAcceptableTag && !IsGrabbed)
+        {
+            return Actor;
+        }
+    }
+
+    return nullptr;
+}
