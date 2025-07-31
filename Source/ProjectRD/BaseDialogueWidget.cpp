@@ -23,7 +23,7 @@ void UBaseDialogueWidget::NativeConstruct()
 	DialogueComp->OnDialogueFinished.AddDynamic(this, &UBaseDialogueWidget::OnDialogueFinished);
 	DialogueComp->StartDialogue();
 
-	SetInputModeGameAndUI();
+	SetInputModeUIOnly();
 }
 
 void UBaseDialogueWidget::NativeDestruct()
@@ -50,15 +50,17 @@ void UBaseDialogueWidget::OnDialogueFinished()
 	RemoveFromParent();
 }
 
-void UBaseDialogueWidget::SetInputModeGameAndUI()
+void UBaseDialogueWidget::SetInputModeUIOnly()
 {
 	APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
 	if (!PlayerController) return;
 
-	FInputModeGameAndUI InputModeData;
+	FInputModeUIOnly InputModeData;
 	InputModeData.SetWidgetToFocus(TakeWidget());
 	InputModeData.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
 	PlayerController->SetInputMode(InputModeData);
+
+	PlayerController->FlushPressedKeys();
 
 	PlayerController->bShowMouseCursor = true;
 	PlayerController->SetIgnoreLookInput(true);

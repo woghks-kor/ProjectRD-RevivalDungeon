@@ -35,6 +35,9 @@ public:
 	void ResetPuzzle();
 	void ClearWidget();
 
+	void SetInputModeUIOnly();
+	void SetInputModeGameOnly();
+
 public:
 	UPROPERTY(BlueprintAssignable, Category = "Puzzle")
 	FOnPuzzleSuccess OnPuzzleSuccess;

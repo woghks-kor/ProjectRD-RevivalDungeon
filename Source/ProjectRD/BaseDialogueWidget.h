@@ -32,7 +32,7 @@ protected:
 	UFUNCTION()
 	void OnDialogueFinished();
 
-	void SetInputModeGameAndUI();
+	void SetInputModeUIOnly();
 	void SetInputModeGameOnly();
 
 public:

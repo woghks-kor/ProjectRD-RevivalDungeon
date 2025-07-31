@@ -33,6 +33,7 @@ void UPuzzleSwitchWidget::NativeConstruct()
 	// Initialize
 	if (!Answer) return;
 	Count = 0;
+	SetInputModeUIOnly();
 }
 
 void UPuzzleSwitchWidget::CheckPuzzleAnswer(EBUTTONCOLOR Color)
@@ -82,6 +83,35 @@ void UPuzzleSwitchWidget::ResetPuzzle()
 void UPuzzleSwitchWidget::ClearWidget()
 {
 	RemoveFromParent();
+	SetInputModeGameOnly();
+}
+
+void UPuzzleSwitchWidget::SetInputModeUIOnly()
+{
+	APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
+	if (!PlayerController) return;
+
+	FInputModeUIOnly InputModeData;
+	InputModeData.SetWidgetToFocus(TakeWidget());
+	InputModeData.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
+	PlayerController->SetInputMode(InputModeData);
+
+	PlayerController->FlushPressedKeys();
+
+	PlayerController->bShowMouseCursor = true;
+	PlayerController->SetIgnoreLookInput(true);
+}
+
+void UPuzzleSwitchWidget::SetInputModeGameOnly()
+{
+	APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
+	if (!PlayerController) return;
+
+	FInputModeGameOnly InputModeData;
+	PlayerController->SetInputMode(InputModeData);
+
+	PlayerController->bShowMouseCursor = false;
+	PlayerController->SetIgnoreLookInput(false);
 }
 
 void UPuzzleSwitchWidget::OnRedButtonClicked()
