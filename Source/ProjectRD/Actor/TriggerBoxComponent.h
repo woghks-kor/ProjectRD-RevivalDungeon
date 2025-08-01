@@ -7,7 +7,7 @@
 #include "TriggerBoxComponent.generated.h"
 
 /**
- * 
+ *	다른 액터가 설정된 TargetActorTag 와 같은 Tag 를 가지고 있으면 이 트리거 박스에 붙임
  */
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class PROJECTRD_API UTriggerBoxComponent : public UBoxComponent

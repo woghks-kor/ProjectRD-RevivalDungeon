@@ -23,6 +23,9 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UFUNCTION(BlueprintCallable)
+	virtual void OnInteract();
+
 	UFUNCTION()
 	void OnSphereBeginOverlap(UPrimitiveComponent* OverlappedComponent,
 		AActor* OtherActor,
@@ -38,11 +41,19 @@ public:
 		int32 OtherBodyIndex);
 
 	UFUNCTION(BlueprintCallable)
+	void CheckRepeat();
+
+	void SetHintMaterial(UMaterialInterface* Material);
+
+	UFUNCTION(BlueprintCallable)
 	void ClearWidget();
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool bCanInteract = true;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool bShouldRepeatInteraction = true;
 
 	UPROPERTY()
 	bool bHintVisible = false;
