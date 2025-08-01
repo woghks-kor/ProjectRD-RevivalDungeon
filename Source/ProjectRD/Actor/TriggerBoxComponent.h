@@ -30,7 +30,7 @@ public:
 	bool IsActorInTrigger() const;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	AActor* LockActor;
+	AActor* MoveActor;
 
 private:
 	UPROPERTY(EditAnyWhere)
