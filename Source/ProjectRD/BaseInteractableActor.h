@@ -38,11 +38,19 @@ public:
 		int32 OtherBodyIndex);
 
 	UFUNCTION(BlueprintCallable)
+	void CheckRepeat();
+
+	void SetHintMaterial(UMaterialInterface* Material);
+
+	UFUNCTION(BlueprintCallable)
 	void ClearWidget();
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool bCanInteract = true;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool bShouldRepeatInteraction = true;
 
 	UPROPERTY()
 	bool bHintVisible = false;

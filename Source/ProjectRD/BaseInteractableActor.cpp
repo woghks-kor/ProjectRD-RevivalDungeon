@@ -51,6 +51,8 @@ void ABaseInteractableActor::OnSphereBeginOverlap(UPrimitiveComponent* Overlappe
 
 	if (bCanInteract)
 	{
+		SetHintMaterial(OutlineMaterial);
+
 		if (WidgetClass)
 		{
 			InteractionWidget = CreateWidget<UUserWidget>(GetWorld(), WidgetClass);
@@ -59,17 +61,10 @@ void ABaseInteractableActor::OnSphereBeginOverlap(UPrimitiveComponent* Overlappe
 			WidgetComp->SetWidget(InteractionWidget);
 			WidgetComp->SetVisibility(true);
 		}
-
-		if (!bHintVisible)
-		{
-			MeshComp->SetOverlayMaterial(OutlineMaterial);
-
-			bHintVisible = true;
-			bCanPress = true;
-		}
 	}
 
 	EnableInput(GetWorld()->GetFirstPlayerController());
+	
 }
 
 void ABaseInteractableActor::OnSphereEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,
@@ -80,13 +75,7 @@ void ABaseInteractableActor::OnSphereEndOverlap(UPrimitiveComponent* OverlappedC
 
 	if (bCanInteract)
 	{
-		if (bHintVisible)
-		{
-			MeshComp->SetOverlayMaterial(nullptr);
-
-			bHintVisible = false;
-			bCanPress = false;
-		}
+		SetHintMaterial(nullptr);
 
 		if (InteractionWidget)
 		{
@@ -97,6 +86,33 @@ void ABaseInteractableActor::OnSphereEndOverlap(UPrimitiveComponent* OverlappedC
 	}
 
 	DisableInput(GetWorld()->GetFirstPlayerController());
+}
+
+void ABaseInteractableActor::CheckRepeat()
+{
+	if (!bShouldRepeatInteraction)
+	{
+		bCanInteract = false;
+		SetHintMaterial(nullptr);
+		ClearWidget();
+		DisableInput(GetWorld()->GetFirstPlayerController());
+	}
+}
+
+void ABaseInteractableActor::SetHintMaterial(UMaterialInterface* Material)
+{
+	if (bHintVisible)
+	{
+		bHintVisible = false;
+		bCanPress = false;
+	}
+	else
+	{
+		bHintVisible = true;
+		bCanPress = true;
+	}
+
+	MeshComp->SetOverlayMaterial(Material);
 }
 
 void ABaseInteractableActor::ClearWidget()
