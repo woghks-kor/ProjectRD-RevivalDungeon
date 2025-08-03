@@ -74,9 +74,6 @@ public:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<class UUserWidget> WidgetClass;
 
-	UPROPERTY()
-	class UUserWidget* InteractionWidget;
-
 	UPROPERTY(EditAnywhere)
 	class UMaterialInterface* OutlineMaterial;
 

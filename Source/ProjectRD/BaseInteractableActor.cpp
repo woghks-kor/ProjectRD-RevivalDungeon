@@ -58,12 +58,9 @@ void ABaseInteractableActor::OnSphereBeginOverlap(UPrimitiveComponent* Overlappe
 	{
 		SetHintMaterial(OutlineMaterial);
 
-		if (WidgetClass)
+		if (WidgetClass && WidgetComp)
 		{
-			InteractionWidget = CreateWidget<UUserWidget>(GetWorld(), WidgetClass);
-			if (!InteractionWidget) return;
-
-			WidgetComp->SetWidget(InteractionWidget);
+			WidgetComp->SetWidgetClass(WidgetClass);
 			WidgetComp->SetVisibility(true);
 		}
 	}
@@ -82,7 +79,7 @@ void ABaseInteractableActor::OnSphereEndOverlap(UPrimitiveComponent* OverlappedC
 	{
 		SetHintMaterial(nullptr);
 
-		if (InteractionWidget)
+		if (WidgetClass && WidgetComp)
 		{
 			FTimerManager& TimerManager = GetWorld()->GetTimerManager();
 			TimerManager.ClearTimer(TimerHandle);
@@ -123,7 +120,5 @@ void ABaseInteractableActor::SetHintMaterial(UMaterialInterface* Material)
 void ABaseInteractableActor::ClearWidget()
 {
 	WidgetComp->SetVisibility(false);
-	WidgetComp->SetWidget(nullptr);
-
-	InteractionWidget = nullptr;
+	WidgetComp->SetWidgetClass(nullptr);
 }
