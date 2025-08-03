@@ -122,7 +122,8 @@ void ABaseInteractableActor::SetHintMaterial(UMaterialInterface* Material)
 
 void ABaseInteractableActor::ClearWidget()
 {
-	InteractionWidget->RemoveFromParent();
-	InteractionWidget = nullptr;
 	WidgetComp->SetVisibility(false);
+	WidgetComp->SetWidget(nullptr);
+
+	InteractionWidget = nullptr;
 }
