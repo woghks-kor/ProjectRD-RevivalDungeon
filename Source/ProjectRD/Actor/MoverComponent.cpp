@@ -31,6 +31,7 @@ void UMoverComponent::BeginPlay()
 	if (MoverSoundComponent && MoveSound)
 	{
 		MoverSoundComponent->SetSound(MoveSound);
+		MoverSoundComponent->SetRelativeLocation(OriginalLocation);
 	}
 
 }

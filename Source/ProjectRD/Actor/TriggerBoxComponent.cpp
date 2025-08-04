@@ -16,8 +16,7 @@ UTriggerBoxComponent::UTriggerBoxComponent()
     PrimaryComponentTick.bCanEverTick = true;
 
     // ...
-    StandSoundComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("StandSoundComp"));
-    StandSoundComponent->bAutoActivate = false;
+    
 }
 
 void UTriggerBoxComponent::BeginPlay()
@@ -34,10 +33,6 @@ void UTriggerBoxComponent::BeginPlay()
         }
     }
 
-    if (StandSoundComponent && StandSound)
-    {
-        StandSoundComponent->SetSound(StandSound);
-    }
 }
 
 void UTriggerBoxComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -50,10 +45,9 @@ void UTriggerBoxComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
     {
         if (!bIsStand)
         {
-            if (StandSoundComponent && StandSound)
+            if (StandSound)
             {
-                //UGameplayStatics::PlaySoundAtLocation(GetWorld(), StandSound, GetComponentLocation());
-                StandSoundComponent->Play();
+                UGameplayStatics::PlaySoundAtLocation(GetWorld(), StandSound, GetComponentLocation());
             }
 
             bIsStand = true;
@@ -83,10 +77,6 @@ void UTriggerBoxComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
     else
     {
         bIsStand = false;
-        if (StandSoundComponent && StandSound)
-        {
-            StandSoundComponent->Stop();
-        }
 
         if (Mover != nullptr)
         {

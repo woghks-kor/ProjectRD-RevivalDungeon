@@ -23,9 +23,6 @@ protected:
 public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	UPROPERTY()
-	UAudioComponent* StandSoundComponent;
-
 	UPROPERTY(EditAnywhere)
 	USoundBase* StandSound;
 
