@@ -4,7 +4,7 @@
 #include "Actor/DialogueTriggerActor.h"
 
 #include "Components/BoxComponent.h"
-#include "Blueprint/UserWidget.h"
+#include "BaseHintWidget.h"
 #include "GameFramework/Character.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -41,9 +41,10 @@ void ADialogueTriggerActor::OnBoxBeginOverlap(UPrimitiveComponent* OverlappedCom
 	if (!Player) return;
 	
 	if (!WidgetClass) return;
-	WidgetInstance = CreateWidget<UUserWidget>(GetWorld(), WidgetClass);
+	WidgetInstance = CreateWidget<UBaseHintWidget>(GetWorld(), WidgetClass);
 
 	if (!WidgetInstance) return;
+	WidgetInstance->ChangeHintImage(HintWidgetImage);
 	WidgetInstance->AddToViewport();
 
 	if (OverlapSound)

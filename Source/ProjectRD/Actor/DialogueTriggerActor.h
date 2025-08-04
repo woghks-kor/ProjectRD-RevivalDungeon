@@ -50,10 +50,13 @@ public:
 	class UBoxComponent* BoxComp;
 
 	UPROPERTY()
-	class UUserWidget* WidgetInstance;
+	class UBaseHintWidget* WidgetInstance;
 
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<class UUserWidget> WidgetClass;
+
+	UPROPERTY(EditAnywhere)
+	class UTexture2D* HintWidgetImage;
 
 	UPROPERTY(EditAnywhere)
 	USoundBase* OverlapSound;
