@@ -4,7 +4,9 @@
 #include "Actor/TriggerBoxComponent.h"
 
 #include "Components/PrimitiveComponent.h"
+#include "Components/AudioComponent.h"
 #include "Actor/MoverComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 
 UTriggerBoxComponent::UTriggerBoxComponent()
@@ -14,6 +16,8 @@ UTriggerBoxComponent::UTriggerBoxComponent()
     PrimaryComponentTick.bCanEverTick = true;
 
     // ...
+    StandSoundComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("StandSoundComp"));
+    StandSoundComponent->bAutoActivate = false;
 }
 
 void UTriggerBoxComponent::BeginPlay()
@@ -23,13 +27,16 @@ void UTriggerBoxComponent::BeginPlay()
     // ...
     if (MoveActor)
     {
-        UE_LOG(LogTemp, Warning, TEXT("MoveActor Find !"));
         UMoverComponent* NewMover = MoveActor->GetComponentByClass<UMoverComponent>();
         if (NewMover) 
         {
-            //UE_LOG(LogTemp, Warning, TEXT("Mover Find !"));
             SetMover(NewMover); 
         }
+    }
+
+    if (StandSoundComponent && StandSound)
+    {
+        StandSoundComponent->SetSound(StandSound);
     }
 }
 
@@ -41,6 +48,17 @@ void UTriggerBoxComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
     AActor* Actor = GetAcceptableActor();
     if (Actor != nullptr)
     {
+        if (!bIsStand)
+        {
+            if (StandSoundComponent && StandSound)
+            {
+                //UGameplayStatics::PlaySoundAtLocation(GetWorld(), StandSound, GetComponentLocation());
+                StandSoundComponent->Play();
+            }
+
+            bIsStand = true;
+        }
+
         UPrimitiveComponent* Component = Cast<UPrimitiveComponent>(Actor->GetRootComponent());
         if (Component != nullptr)
         {
@@ -64,6 +82,12 @@ void UTriggerBoxComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
     }
     else
     {
+        bIsStand = false;
+        if (StandSoundComponent && StandSound)
+        {
+            StandSoundComponent->Stop();
+        }
+
         if (Mover != nullptr)
         {
             Mover->SetShouldMove(false);

@@ -27,6 +27,12 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void SetShouldMove(bool bNewShouldMove);
 
+	UPROPERTY()
+	UAudioComponent* MoverSoundComponent;
+
+	UPROPERTY(EditAnywhere)
+	USoundBase* MoveSound;
+
 private:
 	UPROPERTY(EditAnywhere)
 	FVector MoveOffset;

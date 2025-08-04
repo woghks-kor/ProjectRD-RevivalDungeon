@@ -23,6 +23,15 @@ protected:
 public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	UPROPERTY()
+	UAudioComponent* StandSoundComponent;
+
+	UPROPERTY(EditAnywhere)
+	USoundBase* StandSound;
+
+	bool bIsStand = false;
+
+public:
 	UFUNCTION(BlueprintCallable)
 	void SetMover(class UMoverComponent* Mover);
 
