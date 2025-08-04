@@ -21,10 +21,15 @@ void UTriggerBoxComponent::BeginPlay()
     Super::BeginPlay();
 
     // ...
-    if (LockActor)
+    if (MoveActor)
     {
-        //UMoverComponent* NewMover = Cast<UMoverComponent>(LockActor);
-        //if (NewMover) { SetMover(NewMover); }
+        UE_LOG(LogTemp, Warning, TEXT("MoveActor Find !"));
+        UMoverComponent* NewMover = MoveActor->GetComponentByClass<UMoverComponent>();
+        if (NewMover) 
+        {
+            //UE_LOG(LogTemp, Warning, TEXT("Mover Find !"));
+            SetMover(NewMover); 
+        }
     }
 }
 

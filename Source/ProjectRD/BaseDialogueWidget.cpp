@@ -56,7 +56,7 @@ void UBaseDialogueWidget::SetInputModeUIOnly()
 	if (!PlayerController) return;
 
 	FInputModeUIOnly InputModeData;
-	InputModeData.SetWidgetToFocus(TakeWidget());
+	InputModeData.SetWidgetToFocus(Button_Next->TakeWidget());
 	InputModeData.SetLockMouseToViewportBehavior(EMouseLockMode::DoNotLock);
 	PlayerController->SetInputMode(InputModeData);
 

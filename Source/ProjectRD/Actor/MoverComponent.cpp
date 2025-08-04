@@ -36,7 +36,6 @@ void UMoverComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 	if (bShouldMove)
 	{
 		TargetLocation = OriginalLocation + MoveOffset;
-		UE_LOG(LogTemp, Warning, TEXT("Mover !"));
 	}
 
 	FVector CurrentLocation = GetOwner()->GetActorLocation();
