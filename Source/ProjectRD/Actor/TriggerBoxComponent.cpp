@@ -23,11 +23,9 @@ void UTriggerBoxComponent::BeginPlay()
     // ...
     if (MoveActor)
     {
-        UE_LOG(LogTemp, Warning, TEXT("MoveActor Find !"));
         UMoverComponent* NewMover = MoveActor->GetComponentByClass<UMoverComponent>();
         if (NewMover) 
         {
-            //UE_LOG(LogTemp, Warning, TEXT("Mover Find !"));
             SetMover(NewMover); 
         }
     }

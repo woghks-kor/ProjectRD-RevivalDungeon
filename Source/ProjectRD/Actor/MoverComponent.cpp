@@ -3,6 +3,10 @@
 
 #include "Actor/MoverComponent.h"
 
+#include "Kismet/GameplayStatics.h"
+#include "Components/AudioComponent.h"
+
+
 // Sets default values for this component's properties
 UMoverComponent::UMoverComponent()
 {
@@ -11,6 +15,8 @@ UMoverComponent::UMoverComponent()
 	PrimaryComponentTick.bCanEverTick = true;
 
 	// ...
+	MoverSoundComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("MoverSoundComp"));
+	MoverSoundComponent->bAutoActivate = false;
 }
 
 
@@ -21,6 +27,11 @@ void UMoverComponent::BeginPlay()
 
 	// ...
 	OriginalLocation = GetOwner()->GetActorLocation();
+
+	if (MoverSoundComponent && MoveSound)
+	{
+		MoverSoundComponent->SetSound(MoveSound);
+	}
 
 }
 
@@ -43,6 +54,27 @@ void UMoverComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 
 	FVector NewLocation = FMath::VInterpConstantTo(CurrentLocation, TargetLocation, DeltaTime, Speed);
 	GetOwner()->SetActorLocation(NewLocation);
+
+	if (MoverSoundComponent && MoveSound)
+	{
+		if (CurrentLocation.Equals(NewLocation, 1.f))
+		{
+			if (MoverSoundComponent->IsPlaying())
+			{
+				MoverSoundComponent->Stop();
+			}
+		}
+		else
+		{
+			if (!MoverSoundComponent->IsPlaying())
+			{
+				MoverSoundComponent->Play();
+			}
+		}
+	}
+
+	//UE_LOG(LogTemp, Warning, TEXT("CurrentLocation: %s"), *CurrentLocation.ToString());
+	//UE_LOG(LogTemp, Warning, TEXT("NewLocation: %s"), *NewLocation.ToString());
 }
 
 void UMoverComponent::SetShouldMove(bool bNewShouldMove)
