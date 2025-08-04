@@ -5,6 +5,7 @@
 
 #include "Components/PrimitiveComponent.h"
 #include "Actor/MoverComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 
 UTriggerBoxComponent::UTriggerBoxComponent()
@@ -39,6 +40,16 @@ void UTriggerBoxComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
     AActor* Actor = GetAcceptableActor();
     if (Actor != nullptr)
     {
+        if (!bIsStand)
+        {
+            if (StandSound)
+            {
+                UGameplayStatics::PlaySoundAtLocation(GetWorld(), StandSound, GetComponentLocation());
+            }
+
+            bIsStand = true;
+        }
+
         UPrimitiveComponent* Component = Cast<UPrimitiveComponent>(Actor->GetRootComponent());
         if (Component != nullptr)
         {
@@ -62,6 +73,7 @@ void UTriggerBoxComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
     }
     else
     {
+        bIsStand = false;
         if (Mover != nullptr)
         {
             Mover->SetShouldMove(false);
