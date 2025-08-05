@@ -6,6 +6,9 @@
 #include "GameFramework/Actor.h"
 #include "DialogueTriggerActor.generated.h"
 
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnPlayerTrigger);
+
 UCLASS()
 class PROJECTRD_API ADialogueTriggerActor : public AActor
 {
@@ -22,6 +25,9 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	UPROPERTY(BlueprintAssignable)
+	FOnPlayerTrigger OnPlayerTrigger;
 
 	UFUNCTION()
 	void ClearWidget();

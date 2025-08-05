@@ -6,6 +6,7 @@
 #include "BaseInteractableActor.h"
 #include "BaseDialogueActor.generated.h"
 
+
 UCLASS()
 class PROJECTRD_API ABaseDialogueActor : public ABaseInteractableActor
 {
@@ -24,6 +25,9 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	virtual void OnInteract() override;
+
+	UFUNCTION()
+	void OnInteractFinished();
 
 public:
 	UPROPERTY(VisibleAnywhere)

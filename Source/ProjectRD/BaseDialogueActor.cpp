@@ -20,6 +20,7 @@ void ABaseDialogueActor::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	DialogueComp->OnDialogueFinished.AddDynamic(this, &ABaseDialogueActor::OnInteractFinished);
 }
 
 // Called every frame
@@ -39,5 +40,11 @@ void ABaseDialogueActor::OnInteract()
 	DialogueComp->CreateDialogueWidget();
 	bCanPress = false;
 	CheckRepeat();
+}
+
+void ABaseDialogueActor::OnInteractFinished()
+{
+	//UE_LOG(LogTemp, Warning, TEXT("Interact Finished !"));
+	bCanPress = true;
 }
 

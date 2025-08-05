@@ -45,7 +45,8 @@ void ABaseInteractableActor::Tick(float DeltaTime)
 
 void ABaseInteractableActor::OnInteract()
 {
-	UE_LOG(LogTemp, Warning, TEXT("OnInteract"));
+	//UE_LOG(LogTemp, Warning, TEXT("OnInteract"));
+	OnInteractDelegate.Broadcast();
 }
 
 void ABaseInteractableActor::OnSphereBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor,

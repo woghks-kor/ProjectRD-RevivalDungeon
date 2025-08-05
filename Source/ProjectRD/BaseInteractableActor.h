@@ -6,6 +6,9 @@
 #include "GameFramework/Actor.h"
 #include "BaseInteractableActor.generated.h"
 
+
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnInteractedDelegate);
+
 UCLASS()
 class PROJECTRD_API ABaseInteractableActor : public AActor
 {
@@ -79,4 +82,6 @@ public:
 
 	FTimerHandle TimerHandle;
 
+	UPROPERTY(BlueprintAssignable)
+	FOnInteractedDelegate OnInteractDelegate;
 };

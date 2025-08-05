@@ -15,7 +15,7 @@ class PROJECTRD_API UBaseHintWidget : public UUserWidget
 	GENERATED_BODY()
 	
 public:
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	void ChangeHintImage(UTexture2D* NewDialogueTexture);
 
 protected:

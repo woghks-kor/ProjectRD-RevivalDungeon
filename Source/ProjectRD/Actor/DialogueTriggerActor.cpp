@@ -47,6 +47,8 @@ void ADialogueTriggerActor::OnBoxBeginOverlap(UPrimitiveComponent* OverlappedCom
 	WidgetInstance->ChangeHintImage(HintWidgetImage);
 	WidgetInstance->AddToViewport();
 
+	OnPlayerTrigger.Broadcast();
+
 	if (OverlapSound)
 	{
 		UGameplayStatics::PlaySound2D(this, OverlapSound);
