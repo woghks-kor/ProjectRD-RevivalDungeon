@@ -40,6 +40,8 @@ void ADialogueTriggerActor::OnBoxBeginOverlap(UPrimitiveComponent* OverlappedCom
 	ACharacter* Player = Cast<ACharacter>(OtherActor);
 	if (!Player) return;
 	
+	OnPlayerTrigger.Broadcast();
+
 	if (!WidgetClass) return;
 	WidgetInstance = CreateWidget<UBaseHintWidget>(GetWorld(), WidgetClass);
 
@@ -47,7 +49,6 @@ void ADialogueTriggerActor::OnBoxBeginOverlap(UPrimitiveComponent* OverlappedCom
 	WidgetInstance->ChangeHintImage(HintWidgetImage);
 	WidgetInstance->AddToViewport();
 
-	OnPlayerTrigger.Broadcast();
 
 	if (OverlapSound)
 	{
